@@ -12,4 +12,10 @@ describe Conversions do
   it "determines all known currency types" do
     @conversions.types.should == ["AUD", "CAD", "USD"]
   end
+
+  it "determines known conversions" do
+    @conversions["AUD"]["CAD"].should == 1.0079
+    @conversions["CAD"]["USD"].should == 1.0090
+    @conversions["USD"]["CAD"].should == 0.9911
+  end
 end

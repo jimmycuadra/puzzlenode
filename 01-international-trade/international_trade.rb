@@ -1,4 +1,5 @@
 require "active_support/core_ext/hash"
+require "bigdecimal"
 
 class Conversions
   attr_reader :data, :types
@@ -13,7 +14,7 @@ class Conversions
     @raw["rates"]["rate"].each do |rate|
       from = rate["from"]
       to = rate["to"]
-      conv = rate["conversion"]
+      conv = BigDecimal.new(rate["conversion"])
 
       @types << [from, to]
 
@@ -22,5 +23,9 @@ class Conversions
     end
 
     @types.flatten!.uniq!.sort!
+  end
+
+  def [](key)
+    @data[key]
   end
 end
