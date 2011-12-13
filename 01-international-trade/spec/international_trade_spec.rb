@@ -18,4 +18,8 @@ describe Conversions do
     @conversions["CAD"]["USD"].should == 1.0090
     @conversions["USD"]["CAD"].should == 0.9911
   end
+
+  it "determines missing conversions" do
+    @conversions.missing_conversions.should == { "AUD" => ["USD"], "CAD" => ["AUD"], "USD" => ["AUD"] }
+  end
 end

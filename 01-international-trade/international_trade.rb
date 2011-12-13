@@ -28,4 +28,14 @@ class Conversions
   def [](key)
     @data[key]
   end
+
+  def missing_conversions
+    missing = {}
+
+    types.each do |from|
+      missing[from] = types.reject { |to| from == to || data[from][to] }
+    end
+
+    missing
+  end
 end
