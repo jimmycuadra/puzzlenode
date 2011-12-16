@@ -29,6 +29,19 @@ class Conversions
     @data[key]
   end
 
+  def fill_in_missing_conversions!
+    missing_conversions.each do |from, missing_tos|
+      missing_tos.each do |to|
+        reverse = data[to][from]
+
+        if !reverse.nil?
+          data[from][to] = BigDecimal(1.to_s) / reverse
+        else
+        end
+      end
+    end
+  end
+
   private
 
   def missing_conversions
