@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/conversions"
+
+conversions = Conversions.new("RATES.xml")
+conversions.fill_in_missing_conversions!
