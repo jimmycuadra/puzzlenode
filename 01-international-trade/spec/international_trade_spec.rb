@@ -13,13 +13,17 @@ describe Conversions do
     @conversions.types.should == ["AUD", "CAD", "USD"]
   end
 
-  it "determines known conversions" do
-    @conversions["AUD"]["CAD"].should == 1.0079
-    @conversions["CAD"]["USD"].should == 1.0090
-    @conversions["USD"]["CAD"].should == 0.9911
+  describe "#[]" do
+    it "provides access to individual conversion rates" do
+      @conversions["AUD"]["CAD"].should == 1.0079
+      @conversions["CAD"]["USD"].should == 1.0090
+      @conversions["USD"]["CAD"].should == 0.9911
+    end
   end
 
-  it "determines missing conversions" do
-    @conversions.missing_conversions.should == { "AUD" => ["USD"], "CAD" => ["AUD"], "USD" => ["AUD"] }
+  describe "#missing_conversions" do
+    it "determines missing conversions" do
+      @conversions.missing_conversions.should == { "AUD" => ["USD"], "CAD" => ["AUD"], "USD" => ["AUD"] }
+    end
   end
 end
