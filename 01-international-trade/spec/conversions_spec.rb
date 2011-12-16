@@ -1,4 +1,4 @@
-require_relative "../international_trade"
+require_relative "../lib/conversions"
 
 describe Conversions do
   before do
