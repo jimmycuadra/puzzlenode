@@ -14,7 +14,7 @@ class Conversions
     @raw["rates"]["rate"].each do |rate|
       from = rate["from"]
       to = rate["to"]
-      conv = BigDecimal.new(rate["conversion"])
+      conv = BigDecimal(rate["conversion"])
 
       @types << [from, to]
 
@@ -29,6 +29,8 @@ class Conversions
     @data[key]
   end
 
+  private
+
   def missing_conversions
     missing = {}
 
@@ -37,5 +39,9 @@ class Conversions
     end
 
     missing
+  end
+
+  def convert(value, from, to)
+    (BigDecimal(value.to_s) * data[from][to]).round(2, :banker)
   end
 end
