@@ -19,15 +19,9 @@ describe Conversions do
     end
   end
 
-  describe "#missing_conversions" do
-    it "determines missing conversions" do
-      @conversions.send(:missing_conversions).should == { "AUD" => ["USD"], "CAD" => ["AUD"], "USD" => ["AUD"] }
-    end
-  end
-
   describe "#convert" do
     it "converts a value from one rate to another" do
-      @conversions.send(:convert, 10.25, "AUD", "CAD").to_s("F").should == "10.33"
+      @conversions.convert(10.25, "AUD", "CAD").to_s("F").should == "10.33"
     end
   end
 

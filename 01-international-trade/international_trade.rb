@@ -37,9 +37,15 @@ class Conversions
         if !reverse.nil?
           data[from][to] = BigDecimal(1.to_s) / reverse
         else
+          intermediate = find_intermediate_conversion(from, to)
+          data[from][to] = data[from][intermediate] * data[intermediate][to]
         end
       end
     end
+  end
+
+  def convert(value, from, to)
+    (BigDecimal(value.to_s) * data[from][to]).round(2, :banker)
   end
 
   private
@@ -54,7 +60,9 @@ class Conversions
     missing
   end
 
-  def convert(value, from, to)
-    (BigDecimal(value.to_s) * data[from][to]).round(2, :banker)
+  def find_intermediate_conversion(from, to)
+    starting_keys = data[from].keys
+    matching_key, unused = data.find { |key, value| starting_keys.include?(key) && data[key].keys.include?(to) }
+    matching_key
   end
 end
