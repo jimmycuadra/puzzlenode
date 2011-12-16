@@ -8,7 +8,7 @@ class Conversions
     @data = {}
     @types = []
 
-    @raw = Hash.from_xml(File.read("files/#{filename}"))
+    @raw = Hash.from_xml(File.read("fixtures/#{filename}"))
 
 
     @raw["rates"]["rate"].each do |rate|
