@@ -13,6 +13,14 @@ describe Conversions do
     @conversions.types.should == ["AUD", "CAD", "USD"]
   end
 
+  it "fills in conversions that are the reverse of a known conversion" do
+    @conversions["CAD"]["AUD"].to_s("F").should == "0.992161920825478718126798294"
+  end
+
+  it "fills in conversions that require an intermediate conversion" do
+    @conversions["AUD"]["USD"].should == 1.0169711
+  end
+
   describe "#[]" do
     it "provides access to individual conversion rates" do
       @conversions["AUD"]["CAD"].should == 1.0079
@@ -22,18 +30,6 @@ describe Conversions do
   describe "#convert" do
     it "converts a value from one rate to another" do
       @conversions.convert(10.25, "AUD", "CAD").to_s("F").should == "10.33"
-    end
-  end
-
-  describe "#fill_in_missing_conversions!" do
-    it "fills in conversions that are the reverse of a known conversion" do
-      @conversions.fill_in_missing_conversions!
-      @conversions["CAD"]["AUD"].to_s("F").should == "0.992161920825478718126798294"
-    end
-
-    it "fills in conversions that require an intermediate conversion" do
-      @conversions.fill_in_missing_conversions!
-      @conversions["AUD"]["USD"].should == 1.0169711
     end
   end
 end

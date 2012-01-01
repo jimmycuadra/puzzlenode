@@ -23,11 +23,19 @@ class Conversions
     end
 
     @types.flatten!.uniq!.sort!
+
+    fill_in_missing_conversions!
   end
 
   def [](key)
     @data[key]
   end
+
+  def convert(value, from, to)
+    (BigDecimal(value.to_s) * data[from][to]).round(2, :banker)
+  end
+
+  private
 
   def fill_in_missing_conversions!
     missing_conversions.each do |from, missing_tos|
@@ -43,12 +51,6 @@ class Conversions
       end
     end
   end
-
-  def convert(value, from, to)
-    (BigDecimal(value.to_s) * data[from][to]).round(2, :banker)
-  end
-
-  private
 
   def missing_conversions
     missing = {}
