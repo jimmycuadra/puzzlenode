@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+require "bigdecimal"
+
+now = Time.now
+year, month, day = now.year, now.month, now.day
+
+init_time = lambda do |hour_minute|
+  hours, minutes = hour_minute.split(":")
+  Time.utc(year, month, day, hours, minutes)
+end
+
+test_cases = []
+index = 0
+next_match_starts_new_test_case = false
+
+lines = File.readlines("fixtures/sample-input.txt")
+3.times { |n| lines.shift }
+
+lines.each do |line|
+  a = line.chomp.split
+
+  if a.size <= 1
+    next_match_starts_new_test_case = true
+    next
+  end
+
+  if next_match_starts_new_test_case
+    next_match_starts_new_test_case = false
+    index += 1
+  end
+
+  test_cases[index] ||= []
+  test_cases[index] << {
+    from: a[0],
+    to: a[1],
+    departure: init_time.call(a[2]),
+    arrival: init_time.call(a[3]),
+    price: BigDecimal(a[4])
+  }
+end
