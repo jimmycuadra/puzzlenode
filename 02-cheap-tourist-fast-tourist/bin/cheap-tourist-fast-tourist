@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
-require_relative "../lib/flights"
+require_relative "../lib/flight_set"
+require_relative "../lib/flight"
 
-test_cases = []
+flight_sets = [FlightSet.new]
 index = 0
 next_match_starts_new_test_case = false
 
@@ -12,25 +13,25 @@ lines = File.readlines("fixtures/sample-input.txt")
 lines.each do |line|
   flight_data = line.chomp.split
 
-  if flight_data.size <= 1
+  if flight_data.size < 5
     next_match_starts_new_test_case = true
     next
   end
 
   if next_match_starts_new_test_case
-    next_match_starts_new_test_case = false
     index += 1
+    flight_sets[index] = FlightSet.new
+    next_match_starts_new_test_case = false
   end
 
-  test_cases[index] ||= Flights.new
-  test_cases[index] << flight_data
+  flight_sets[index] << Flight.new(*flight_data)
 end
 
 output = []
 
-test_cases.each_with_index do |flights, i|
-  output << flights.cheapest
-  output << flights.fastest
+flight_sets.each do |flight_set|
+  output << flight_set.cheapest
+  output << flight_set.fastest
   output << ""
 end
 
