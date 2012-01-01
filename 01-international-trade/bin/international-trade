@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
 require_relative "../lib/conversions"
+require_relative "../lib/transactions"
 
-conversions = Conversions.new("RATES.xml")
+conversions = Conversions.new("SAMPLE_RATES.xml")
+transactions = Transactions.new("SAMPLE_TRANS.csv", conversions)
+puts transactions.reduce_for_sku("DM1182")
